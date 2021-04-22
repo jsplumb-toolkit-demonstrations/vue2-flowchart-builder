@@ -7,7 +7,7 @@
 
 <script>
 
-import { jsPlumb, Dialogs, DrawingTools, jsPlumbUtil } from 'jsplumbtoolkit'
+import { jsPlumb, Dialogs, DrawingTools} from 'jsplumbtoolkit'
 import { jsPlumbToolkitVue2 } from 'jsplumbtoolkit-vue2'
 
 import StartNode from './StartNode.vue'
@@ -32,29 +32,6 @@ function editEdge(params) {
     });
 }
 
-function nodeFactory(type, data, callback)  {
-    Dialogs.show({
-        id: "dlgText",
-        title: "Enter " + type + " name:",
-        onOK: function (d) {
-            data.text = d.text;
-            // if the user entered a name...
-            if (data.text) {
-                // and it was at least 2 chars
-                if (data.text.length >= 2) {
-                    // set an id and continue.
-                    data.id = jsPlumbUtil.uuid();
-                    callback(data);
-                }
-                else
-                // else advise the user.
-                    alert(type + " names must be at least 2 characters!");
-            }
-            // else...do not proceed.
-        }
-    });
-}
-
 export default {
 
     name: 'jsp-toolkit',
@@ -63,28 +40,8 @@ export default {
         return {
             toolkitParams:{
                 nodeFactory:(type, data, callback)  => {
-                    component.$emit("node-factory", {type:type,data:data, callback:callback})
-    Dialogs.show({
-        id: "dlgText",
-        title: "Enter " + type + " name:",
-        onOK: function (d) {
-            data.text = d.text;
-            // if the user entered a name...
-            if (data.text) {
-                // and it was at least 2 chars
-                if (data.text.length >= 2) {
-                    // set an id and continue.
-                    data.id = jsPlumbUtil.uuid();
-                    callback(data);
-                }
-                else
-                // else advise the user.
-                    alert(type + " names must be at least 2 characters!");
-            }
-            // else...do not proceed.
-        }
-    });
-},
+                    component.$emit("node-factory", {type:type,data:data, callback:callback})    
+                },
                 // eslint-disable-next-line
                 beforeStartConnect:function(node, edgeType) {
                     // limit edges from start node to 1. if any other type of node, return
