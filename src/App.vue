@@ -59,7 +59,6 @@ export default {
             };
         },
         nodeFactory:function(params) {
-          alert("the node factory in the component")
           Dialogs.show({
             id: "dlgText",
             title: "Enter " + params.type + " name:",
@@ -71,7 +70,7 @@ export default {
                     if (params.data.text.length >= 2) {
                         // set an id and continue.
                         params.data.id = jsPlumbUtil.uuid();
-                        params.callback(data);
+                        params.callback(params.data);
                     }
                     else
                     // else advise the user.
