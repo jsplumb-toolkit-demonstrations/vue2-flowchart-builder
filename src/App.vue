@@ -5,7 +5,7 @@
 
         <div id="canvas" class="jtk-demo-canvas">
           <Controls surface-id="surface"></Controls>
-          <Flowchart surface-id="surface"></Flowchart>
+          <Flowchart surface-id="surface" v-on:node-factory="nodeFactory"></Flowchart>
         </div>
 
         <div class="jtk-demo-rhs">
@@ -57,6 +57,29 @@ export default {
                 h:80,
                 id:jsPlumbUtil.uuid()
             };
+        },
+        nodeFactory:function(params) {
+          alert("the node factory in the component")
+          Dialogs.show({
+            id: "dlgText",
+            title: "Enter " + params.type + " name:",
+            onOK: function (d) {
+                params.data.text = d.text;
+                // if the user entered a name...
+                if (params.data.text) {
+                    // and it was at least 2 chars
+                    if (params.data.text.length >= 2) {
+                        // set an id and continue.
+                        params.data.id = jsPlumbUtil.uuid();
+                        params.callback(data);
+                    }
+                    else
+                    // else advise the user.
+                        alert(params.type + " names must be at least 2 characters!");
+                }
+                // else...do not proceed.
+            }
+        });
         }
     },
     mounted:function() {
