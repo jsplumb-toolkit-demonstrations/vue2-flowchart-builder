@@ -32,6 +32,33 @@ function editEdge(params) {
     });
 }
 
+/**
+ * The nodeFactory is what the Toolkit uses to get the initial data for a new node. This node factory emits a `dialog`
+ * event which the parent picks up, but the logic involving the Toolkit is inside this component.
+ */
+function nodeFactory(type, data, callback) {
+    component.$emit("dialog", {
+        id: "dlgText",
+        title: "Enter " + type + " name:",
+        onOK: function (d) {
+            data.text = d.text;
+            // if the user entered a name...
+            if (data.text) {
+                // and it was at least 2 chars
+                if (data.text.length >= 2) {
+                    // set an id and continue.
+                    data.id = jsPlumbUtil.uuid();
+                    callback(data);
+                }
+                else
+                // else advise the user.
+                    alert(type + " names must be at least 2 characters!");
+            }
+            // else...do not proceed.
+        }
+    });
+}
+
 export default {
 
     name: 'jsp-toolkit',
@@ -39,9 +66,7 @@ export default {
     data:() => {
         return {
             toolkitParams:{
-                nodeFactory:(type, data, callback)  => {
-                    component.$emit("node-factory", {type:type,data:data, callback:callback})    
-                },
+                nodeFactory:nodeFactory,
                 // eslint-disable-next-line
                 beforeStartConnect:function(node, edgeType) {
                     // limit edges from start node to 1. if any other type of node, return
@@ -163,6 +188,33 @@ export default {
                 }
             }
         };
+    },
+    methods:{
+        maybeDelete:function(node) {
+            this.$emit("dialog", {
+                id:"dlgConfirm",
+                data: {
+                    msg: "Delete '" + node.data.text + "'"
+                },
+                onOK:() => {
+                    toolkit.removeNode(node);
+                }
+            })
+        },
+        editNode:function(node) {
+            this.$emit("dialog", {
+                id: "dlgText",
+                data: node.data,
+                title: "Edit " + node.data.type + " name",
+                onOK: (data) => {
+                    if (data.text && data.text.length > 2) {
+                        // if name is at least 2 chars long, update the underlying data and
+                        // update the UI.
+                        toolkit.updateNode(node, data);
+                    }
+                }
+            });
+        }
     },
 
     mounted() {
