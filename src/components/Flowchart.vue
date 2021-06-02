@@ -7,7 +7,7 @@
 
 <script>
 
-import { jsPlumb, Dialogs, DrawingTools, jsPlumbUtil } from 'jsplumbtoolkit'
+import { jsPlumb, Dialogs, DrawingTools} from 'jsplumbtoolkit'
 import { jsPlumbToolkitVue2 } from 'jsplumbtoolkit-vue2'
 
 import StartNode from './StartNode.vue'
@@ -18,6 +18,7 @@ import OutputNode from './OutputNode.vue'
 let toolkitComponent;
 let toolkit;
 let surface;
+let component;
 
 function editEdge(params) {
     Dialogs.show({
@@ -31,8 +32,12 @@ function editEdge(params) {
     });
 }
 
-function nodeFactory(type, data, callback)  {
-    Dialogs.show({
+/**
+ * The nodeFactory is what the Toolkit uses to get the initial data for a new node. This node factory emits a `dialog`
+ * event which the parent picks up, but the logic involving the Toolkit is inside this component.
+ */
+function nodeFactory(type, data, callback) {
+    component.$emit("dialog", {
         id: "dlgText",
         title: "Enter " + type + " name:",
         onOK: function (d) {
@@ -184,9 +189,37 @@ export default {
             }
         };
     },
+    methods:{
+        maybeDelete:function(node) {
+            this.$emit("dialog", {
+                id:"dlgConfirm",
+                data: {
+                    msg: "Delete '" + node.data.text + "'"
+                },
+                onOK:() => {
+                    toolkit.removeNode(node);
+                }
+            })
+        },
+        editNode:function(node) {
+            this.$emit("dialog", {
+                id: "dlgText",
+                data: node.data,
+                title: "Edit " + node.data.type + " name",
+                onOK: (data) => {
+                    if (data.text && data.text.length > 2) {
+                        // if name is at least 2 chars long, update the underlying data and
+                        // update the UI.
+                        toolkit.updateNode(node, data);
+                    }
+                }
+            });
+        }
+    },
 
     mounted() {
 
+        component = this
         toolkitComponent = this.$refs.toolkitComponent;
         toolkit = toolkitComponent.toolkit;
 

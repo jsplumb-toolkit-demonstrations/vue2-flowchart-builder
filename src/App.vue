@@ -5,7 +5,7 @@
 
         <div id="canvas" class="jtk-demo-canvas">
           <Controls surface-id="surface"></Controls>
-          <Flowchart surface-id="surface"></Flowchart>
+          <Flowchart surface-id="surface" v-on:dialog="showDialog"></Flowchart>
         </div>
 
         <div class="jtk-demo-rhs">
@@ -57,6 +57,9 @@ export default {
                 h:80,
                 id:jsPlumbUtil.uuid()
             };
+        },
+        showDialog(options) {
+          Dialogs.show(options);
         }
     },
     mounted:function() {
