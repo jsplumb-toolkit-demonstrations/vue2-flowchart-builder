@@ -6,7 +6,8 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+
 
     import { SurfaceDrop } from '@jsplumbtoolkit/browser-ui-vue2-drop'
 

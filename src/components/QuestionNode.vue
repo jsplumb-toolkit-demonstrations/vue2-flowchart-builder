@@ -10,7 +10,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import BaseEditableNode from './BaseEditableNode.vue'
     export default {
         mixins:[BaseEditableNode]
