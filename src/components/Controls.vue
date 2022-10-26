@@ -9,64 +9,71 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 
-    import { getSurface } from "@jsplumbtoolkit/browser-ui-vue2";
+    import { Vue, Component, Prop} from "vue-property-decorator"
+
+    import { getSurface, Surface, SurfaceMode } from "@jsplumbtoolkit/browser-ui-vue2";
     import { EVENT_CANVAS_CLICK } from "@jsplumbtoolkit/browser-ui"
     import { EVENT_UNDOREDO_UPDATE } from "@jsplumbtoolkit/core"
 
-    let container;
-    let surfaceId;
+    @Component
+export default class ControlsComponent extends Vue {
+
+    container:Element
 
     // a wrapper around getSurface, which expects a callback, as the surface may or may not have been
     // initialised when calls are made to it.
-    function _getSurface(cb) {
-        getSurface(surfaceId, cb)
+    _getSurface(cb:(s:Surface) => any) {
+        getSurface(this.surfaceId, cb)
     }
 
-    export default {
-        props:["surfaceId"],
-        methods:{
-            panMode:function() {
-                _getSurface((s) => s.setMode("pan"))
-            },
-            selectMode:function() {
-                _getSurface((s) => s.setMode("select"))
-            },
-            zoomToFit:function() {
-                _getSurface((s) => s.zoomToFit());
-            },
-            undo:function() {
-                _getSurface((s) => s.toolkitInstance.undo())
-            },
-            redo:function() {
-                _getSurface((s) => s.toolkitInstance.redo())
-            },
-            clear: function() {
-                _getSurface((s) => {
-                    const t = s.toolkitInstance;
-                    if (t.getNodeCount() === 0 || confirm("Clear canvas?")) {
-                        t.clear();
-                    }
-                });
+    @Prop() surfaceId:string
+
+    panMode() {
+        this._getSurface((s) => s.setMode(SurfaceMode.PAN))
+    }
+
+    selectMode() {
+        this._getSurface((s) => s.setMode(SurfaceMode.SELECT))
+    }
+
+    zoomToFit() {
+        this._getSurface((s) => s.zoomToFit());
+    }
+
+    undo() {
+        this._getSurface((s) => s.toolkitInstance.undo())
+    }
+
+    redo() {
+        this._getSurface((s) => s.toolkitInstance.redo())
+    }
+
+    clear() {
+        this._getSurface((s) => {
+            const t = s.toolkitInstance;
+            if (t.getNodeCount() === 0 || confirm("Clear canvas?")) {
+                t.clear();
             }
-        },
-        mounted:function() {
-
-            surfaceId = this.surfaceId;
-            container = this.$refs.container;
-            _getSurface((surface) => {
-
-                surface.toolkitInstance.bind(EVENT_UNDOREDO_UPDATE, (state) => {
-                    container.setAttribute("can-undo", state.undoCount > 0 ? "true" : "false")
-                    container.setAttribute("can-redo", state.redoCount > 0 ? "true" : "false")
-                })
-
-                surface.bind(EVENT_CANVAS_CLICK, () => {
-                    surface.toolkitInstance.clearSelection();
-                });
-            });
-        }
+        })
     }
+
+    mounted() {
+
+        this.container = this.$refs.container as any;
+        this._getSurface((surface) => {
+
+            surface.toolkitInstance.bind(EVENT_UNDOREDO_UPDATE, (state) => {
+                this.container.setAttribute("can-undo", state.undoCount > 0 ? "true" : "false")
+                this.container.setAttribute("can-redo", state.redoCount > 0 ? "true" : "false")
+            })
+
+            surface.bind(EVENT_CANVAS_CLICK, () => {
+                surface.toolkitInstance.clearSelection();
+            });
+        });
+    }
+}
 
 </script>
