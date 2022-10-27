@@ -16,7 +16,7 @@
           <div class="description">
             <p>
               This sample application is a copy of the Flowchart Builder application, using the Toolkit's
-              Vue 2 integration components and Vue CLI 3.
+              Vue 2 integration components and Vue CLI 3, with Typescript.
             </p>
             <ul>
               <li>Drag new nodes from the palette on the left onto whitespace to add new disconnected nodes</li>
@@ -40,32 +40,35 @@
   @import "../node_modules/@jsplumbtoolkit/browser-ui/css/jsplumbtoolkit-demo-support.css";
   @import "../node_modules/@jsplumbtoolkit/connector-editors/css/jsplumbtoolkit-connector-editors.css";
   @import "./assets/css/app.css";
-
 </style>
 
-<script>
+<script lang="ts">
 
-  import { uuid } from "@jsplumbtoolkit/core"
+import { Component, Vue } from "vue-property-decorator"
 
-  import Flowchart from './components/Flowchart.vue'
-  import Palette from './components/Palette.vue'
-  import Controls from './components/Controls.vue'
+import { uuid } from "@jsplumbtoolkit/core"
 
-export default {
-  name: 'app',
-  components: {
+import Flowchart from './components/Flowchart.vue'
+import Palette from './components/Palette.vue'
+import Controls from './components/Controls.vue'
+
+@Component({
+  components:{
     Flowchart, Palette, Controls
-  },
-    methods:{
-        dataGenerator:function(el) {
-            return {
-                type:el.getAttribute("data-node-type"),
-                w:el.getAttribute("data-width"),
-                h:el.getAttribute("data-height"),
-                id:uuid()
-            };
-        }
+  }
+})
+
+export default class AppComponent extends Vue {
+
+    dataGenerator(el:HTMLElement) {
+      return {
+        type:el.getAttribute("data-node-type"),
+        w:el.getAttribute("data-width"),
+        h:el.getAttribute("data-height"),
+        id:uuid()
+      };
     }
-}
+  }
+
 </script>
 
