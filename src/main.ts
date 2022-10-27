@@ -4,7 +4,7 @@ import { JsPlumbToolkitVue2Plugin } from '@jsplumbtoolkit/browser-ui-vue2'
 
 Vue.config.productionTip = false
 
-// import plugin the new way
+// import jsPlumb Toolkit plugin
 Vue.use(JsPlumbToolkitVue2Plugin)
 
 new Vue({ render: h => h(App) }).$mount('#app')
