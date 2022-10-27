@@ -4,7 +4,6 @@
                      url="data/copyright.json"
                      v-bind:render-params="renderParams()"
                      v-bind:view="view()"
-                     id="toolkit"
                      surface-id="surface"
                      v-bind:toolkit-params="toolkitParams()">
 
@@ -15,33 +14,29 @@
 
 <script lang="ts">
 
-import { Surface } from "@jsplumbtoolkit/browser-ui"
-import {BrowserUIVue2, getSurface, EVENT_CLICK, DEFAULT} from '@jsplumbtoolkit/browser-ui-vue2'
-import { uuid, Node, Edge, Base } from "@jsplumbtoolkit/core"
+// jsPlumb imports
+import {BrowserUIVue2, getSurface, EVENT_CLICK, DEFAULT, Surface} from '@jsplumbtoolkit/browser-ui-vue2'
+import { uuid, Node, Edge, Base, ObjectData } from "@jsplumbtoolkit/core"
 import { AnchorLocations } from "@jsplumb/common"
 import { BlankEndpoint, ArrowOverlay, Connection, LabelOverlay} from "@jsplumb/core"
 import { ForceDirectedLayout } from "@jsplumbtoolkit/layout-force-directed"
-
 import { LassoPlugin } from "@jsplumbtoolkit/browser-ui-plugin-lasso"
 import { DrawingToolsPlugin } from "@jsplumbtoolkit/browser-ui-plugin-drawing-tools"
-
+import {Dialogs, newInstance} from "@jsplumbtoolkit/dialogs"
 import { newInstance as newConnectorEditor, EdgePathEditor } from "@jsplumbtoolkit/connector-editors"
 import { OrthogonalConnector } from "@jsplumbtoolkit/connector-orthogonal"
-
-// you must do this in order for the orthogonal connector to
-// not be thrown away when tree shaking happens.
+// NOTE: you must do this in order for the orthogonal connector to not be thrown away when tree shaking happens.
 import * as OrthogonalConnectorEditors from "@jsplumbtoolkit/connector-editors-orthogonal"
 OrthogonalConnectorEditors.initialize()
 
-import { ObjectData } from "@jsplumbtoolkit/core"
+// vue component imports
+import {Vue, Component, Prop} from 'vue-property-decorator'
 
+// local imports
 import StartNode from './StartNode.vue'
 import ActionNode from './ActionNode.vue'
 import QuestionNode from './QuestionNode.vue'
 import OutputNode from './OutputNode.vue'
-import {Dialogs, newInstance} from "@jsplumbtoolkit/dialogs"
-
-import {Vue, Component, Prop} from 'vue-property-decorator'
 import {
     DIALOG_CONFIRM,
     DIALOG_MESSAGE,
@@ -58,8 +53,6 @@ export default class Flowchart extends Vue {
     surface:Surface
     dialogs:Dialogs
     edgeEditor:EdgePathEditor
-
-    name = 'jsp-toolkit'
 
     toolkitParams () {
         return {
@@ -109,7 +102,7 @@ export default class Flowchart extends Vue {
     }
 
     //
-    // behaviour of the surface - its layout type, canvac click events, plugins.
+    // behaviour of the surface - its layout type, canvas click events, plugins.
     //
     renderParams() {
         return {
