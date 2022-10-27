@@ -39,7 +39,7 @@ export default class ControlsComponent extends Vue {
     }
 
     zoomToFit() {
-        this._getSurface((s) => s.zoomToFit());
+        this._getSurface((s) => s.zoomToFit())
     }
 
     undo() {
