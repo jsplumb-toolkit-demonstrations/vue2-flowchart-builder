@@ -1,6 +1,6 @@
 {
     "name": "jsplumbtoolkit-vue2-flowchart-builder",
-    "version": "5.8.0",
+    "version": "6.0.0",
     "description": "",
     "main": "index.js",
     "author": "jsPlumb <hello@jsplumbtoolkit.com> (https://jsplumbtoolkit.com)",
@@ -11,14 +11,7 @@
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
-        "@jsplumbtoolkit/browser-ui-plugin-drawing-tools": "^5.12.0",
-        "@jsplumbtoolkit/browser-ui-plugin-lasso": "^5.12.0",
-        "@jsplumbtoolkit/browser-ui-plugin-miniview": "^5.12.0",
-        "@jsplumbtoolkit/browser-ui-vue2": "^5.12.0",
-        "@jsplumbtoolkit/browser-ui-vue2-drop": "^5.12.0",
-        "@jsplumbtoolkit/connector-editors-orthogonal": "^5.12.0",
-        "@jsplumbtoolkit/dialogs": "^5.12.0",
-        "@jsplumbtoolkit/layout-force-directed": "^5.12.0",
+        "@jsplumbtoolkit/browser-ui-vue2": "^6.0.0",
         "core-js": "^3.6.5",
         "vue": "2.6.11"
     },

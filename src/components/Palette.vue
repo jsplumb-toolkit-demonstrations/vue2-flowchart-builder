@@ -8,7 +8,7 @@
 
 <script>
 
-    import { SurfaceDrop } from '@jsplumbtoolkit/browser-ui-vue2-drop'
+    import { SurfaceDrop } from '@jsplumbtoolkit/browser-ui-vue2'
 
     export default {
         mixins:[ SurfaceDrop ],

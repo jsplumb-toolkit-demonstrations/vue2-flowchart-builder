@@ -12,8 +12,7 @@
 <script>
 
     import { getSurface, SurfaceMode } from "@jsplumbtoolkit/browser-ui-vue2";
-    import { EVENT_CANVAS_CLICK } from "@jsplumbtoolkit/browser-ui"
-    import { EVENT_UNDOREDO_UPDATE } from "@jsplumbtoolkit/core"
+    import { EVENT_UNDOREDO_UPDATE, EVENT_CANVAS_CLICK } from "@jsplumbtoolkit/browser-ui"
 
     let container;
     let surfaceId;

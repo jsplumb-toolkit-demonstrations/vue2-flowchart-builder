@@ -35,16 +35,16 @@
 
 <style>
   @import "../node_modules/@jsplumbtoolkit/browser-ui/css/jsplumbtoolkit.css";
-  @import "../node_modules/@jsplumbtoolkit/dialogs-core/css/jsplumbtoolkit-dialogs.css";
+  @import "../node_modules/@jsplumbtoolkit/browser-ui/css/jsplumbtoolkit-dialogs.css";
   @import "../node_modules/@jsplumbtoolkit/browser-ui/css/jsplumbtoolkit-demo-support.css";
-  @import "../node_modules/@jsplumbtoolkit/connector-editors/css/jsplumbtoolkit-connector-editors.css";
+  @import "../node_modules/@jsplumbtoolkit/browser-ui/css/jsplumbtoolkit-connector-editors.css";
   @import "./assets/css/app.css";
 
 </style>
 
 <script>
 
-  import { uuid } from "@jsplumbtoolkit/core"
+  import { uuid } from "@jsplumbtoolkit/browser-ui"
 
   import Flowchart from './components/Flowchart.vue'
   import Palette from './components/Palette.vue'

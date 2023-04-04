@@ -7,22 +7,16 @@
 
 <script>
 
-    // jsplumb imports
-import * as Dialogs from "@jsplumbtoolkit/dialogs"
+// jsplumb imports
 import { getSurface } from '@jsplumbtoolkit/browser-ui-vue2'
-import { uuid } from "@jsplumbtoolkit/core"
-import { ForceDirectedLayout } from "@jsplumbtoolkit/layout-force-directed"
 
-import { LassoPlugin } from "@jsplumbtoolkit/browser-ui-plugin-lasso"
-import { DrawingToolsPlugin } from "@jsplumbtoolkit/browser-ui-plugin-drawing-tools"
-import { newInstance as newConnectorEditors } from "@jsplumbtoolkit/connector-editors"
-
-//
-// you need to initialize the orthogonal connector editor to avoid it being ignored
-// by a tree shaker
-//
-import * as OrthogonalConnectorEditors from "@jsplumbtoolkit/connector-editors-orthogonal"
-OrthogonalConnectorEditors.initialize()
+import { ForceDirectedLayout,
+    LassoPlugin,
+    DrawingToolsPlugin,
+    EdgePathEditor,
+    Dialogs,
+    uuid
+} from "@jsplumbtoolkit/browser-ui"
 
 // local imports
 import StartNode from './StartNode.vue'
@@ -254,7 +248,7 @@ export default {
         toolkitComponent = this.$refs.toolkitComponent;
         toolkit = toolkitComponent.toolkit;
 
-        dialogs = Dialogs.newInstance({
+        dialogs = new Dialogs({
             dialogs: {
                 "dlgText": {
                     template:'<input type="text" size="50" jtk-focus jtk-att="text" value="${text}" jtk-commit="true"/>',
@@ -277,7 +271,7 @@ export default {
 
         getSurface(this.surfaceId, (s) => {
             surface = s;
-            edgeEditor = newConnectorEditors(s)
+            edgeEditor = new EdgePathEditor(s)
         });
 
     }
